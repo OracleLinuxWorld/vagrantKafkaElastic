@@ -192,6 +192,19 @@
     tags:
       - kafka-configfiles
 
+  - name: Templating kafka-demo.sh
+    template:
+      src: templates/kafka/kafka-demo.sh.j2
+      dest: "/usr/local/bin/kafka-demo.sh"
+    tags:
+      - kafka-configfiles
+
+  - name: Setting permissions for kafka-demo.sh
+    file:
+      path: /usr/local/bin/kafka-demo.sh
+      mode: 0755
+
+
 ###
 ### Start Kafka services at boot time
 ###

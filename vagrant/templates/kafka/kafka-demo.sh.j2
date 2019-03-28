@@ -15,7 +15,7 @@ umask 077
 ###
 
 export TOPIC_NAME="test"
-export REPLICATION_FACTOR="3"
+export REPLICATION_FACTOR="1"
 export PARTITIONS="5"
 
 export PORT_BROKER="9092"
@@ -25,8 +25,8 @@ export PORT_ZOOKEEPER="2181"
 
 
 # comma separated list
-KAFKA_LOCAL_BROKER_IPS="{{ kafka_broker_ips }}"
-KAFKA_LOCAL_WORKERNODE_IPS="{{ kafka_workernode_ips }}"
+KAFKA_LOCAL_BROKER_IPS="127.0.0.1"
+KAFKA_LOCAL_WORKERNODE_IPS="127.0.0.1"
 
 # single IP
 KAFKA_LOCAL_BROKER_FIRST_IP=`echo $KAFKA_LOCAL_BROKER_IPS | awk -F , '{print $1}'`
@@ -103,10 +103,6 @@ sleep 3
 CURRENT_DATE=`date`
 echo "Started run at $CURRENT_DATE"
 echo `seq 1 10` | kafka-console-producer --broker-list $KAFKA_LOCAL_BROKER_FIRST_IP:$PORT_BROKER --topic $TOPIC_NAME
-#for ((i=1;i<=10;i++));
-#do
-#   echo "Test " | kafka-console-producer --broker-list $KAFKA_LOCAL_BROKER_FIRST_IP:$PORT_BROKER --topic $TOPIC_NAME
-#done
 }
 
 get_connectors() {
