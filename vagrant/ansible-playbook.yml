@@ -1,0 +1,211 @@
+- hosts: all
+  remote_user: vagrant
+  become: true
+  become_user: root
+  become_method: sudo
+
+  tasks:
+
+
+#############################################################################
+###
+### Setup Confluent repository
+###
+
+# version 5
+  - name: Add / enable the Confluent repo Confluent.dist
+    yum_repository:
+      name: Confluent_repository_dist
+      description: Confluent_repository_dist
+      baseurl: https://packages.confluent.io/rpm/5.0/7
+      gpgkey: https://packages.confluent.io/rpm/5.0/archive.key
+      file: confluent
+      gpgcheck: yes
+      enabled: yes
+
+  - name: Add / enable the Confluent repo Confluent
+    yum_repository:
+      name: Confluent_repository
+      description: Confluent_repository
+      baseurl: https://packages.confluent.io/rpm/5.0
+      gpgkey: https://packages.confluent.io/rpm/5.0/archive.key
+      file: confluent
+      gpgcheck: yes
+      enabled: yes
+
+
+#############################################################################
+###
+### Setup Elasticsearch repository
+###
+
+# version 6
+  - name: Add / enable the Elasticsearch repo
+    yum_repository:
+      name: elasticsearch-6.x
+      description: Elastic repo for 6.x
+      baseurl: https://artifacts.elastic.co/packages/6.x/yum
+      gpgkey: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+      file: elasticsearch
+      gpgcheck: yes
+      enabled: yes
+
+
+#############################################################################
+###
+### Update entire OL7 system to the latest versions...
+###
+
+  - name: upgrade all packages
+    yum:
+      name: '*'
+      state: latest
+
+
+#############################################################################
+###
+### Install packages for both Elasticsearch and Confluent Kafka
+###
+
+  - name: Installing pre-prerequisites
+    yum:
+      name:
+        - java-1.8.0-openjdk
+        - unzip
+        - zip
+      state: latest
+      update_cache: yes
+    when:
+      - ansible_os_family == "RedHat"
+      - ansible_distribution_major_version == "7"
+
+  - name: Installing Confluent Kafka CORE components
+    yum:
+      name:
+        - confluent-platform-2.11
+      state: latest
+      update_cache: yes
+    when:
+      - ansible_os_family == "RedHat"
+      - ansible_distribution_major_version == "7"
+
+  - name: Installing Elasticsearch CORE components
+    yum:
+       name:
+         - elasticsearch
+       state: latest
+       update_cache: yes
+    when:
+       - ansible_os_family == "RedHat"
+       - ansible_distribution_major_version == "7"
+
+  - name: Installing various utilities
+    yum:
+      name:
+        - curl
+        - jq
+        - nc
+        - ntp
+        - ntpdate
+        - tcpdump
+        - telnet
+        - net-tools
+      state: latest
+      update_cache: yes
+    when:
+      - ansible_os_family == "RedHat"
+      - ansible_distribution_major_version == "7"
+
+
+#############################################################################
+###
+### Configure Elasticsearch
+###
+
+###
+### Elasticsearch config file
+###
+
+  - name: Templating Elasticsearch config file
+    template:
+      src: templates/elasticsearch/elasticsearch.yml.j2
+      dest: "/etc/elasticsearch/elasticsearch.yml"
+    tags:
+      - elasticsearch-configfiles
+
+###
+### Elasticsearch jvm.options file
+###
+
+  - name: Templating JVM config file
+    template:
+      src: templates/elasticsearch/jvm.options.j2
+      dest: "/etc/elasticsearch/jvm.options"
+    tags:
+      - elasticsearch-configfiles
+
+
+###
+### Start Elasticsearch at boot time
+###
+
+  - name: Make sure Elasticsearch is started at boot time
+    service:
+       name: "{{ item }}"
+       state: started
+       enabled: True
+    with_items:
+       - elasticsearch
+    when:
+       - ansible_os_family == "RedHat"
+       - ansible_distribution_major_version == "7"
+
+
+
+
+
+#############################################################################
+###
+### KAFKA config files
+###
+
+  - name: Templating Kafka zookeeper.properties file
+    template:
+      src: templates/kafka/zookeeper.properties.j2
+      dest: "/etc/kafka/zookeeper.properties"
+    tags:
+      - kafka-configfiles
+
+
+  - name: Templating Kafka server.properties file
+    template:
+      src: templates/kafka/server.properties.j2
+      dest: "/etc/kafka/server.properties"
+    tags:
+      - kafka-configfiles
+
+
+  - name: Templating Kafka kafka-rest.properties file
+    template:
+      src: templates/kafka/kafka-rest.properties.j2
+      dest: "/etc/kafka-rest/kafka-rest.properties"
+    tags:
+      - kafka-configfiles
+
+###
+### Start Kafka services at boot time
+###
+
+  - name: Make sure Kafka services are started at boot time
+    service:
+       name: "{{ item }}"
+       state: started
+       enabled: True
+    with_items:
+       - elasticsearch
+       - confluent-zookeeper
+       - confluent-kafka
+       - confluent-kafka-rest
+    when:
+       - ansible_os_family == "RedHat"
+       - ansible_distribution_major_version == "7"

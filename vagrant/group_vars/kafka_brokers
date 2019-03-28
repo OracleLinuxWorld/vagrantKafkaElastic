@@ -1,0 +1,37 @@
+###
+### Variables limited to only the Kafka brokers
+###
+
+# num.partitions: The default number of log partitions per topic.
+# More partitions allow greater parallelism for consumption.
+kafka_server_num_partitions: 5
+
+# listeners: The address the socket server listens on.
+kafka_server_listeners: "{{ kafka_generic_security_protocol }}://:9092"
+
+# kafka_advertised_listeners: address + port that is advertised to all other servers
+kafka_advertised_listeners: "{{ kafka_generic_security_protocol }}://{{ kafka_service_ip_address }}:{{ port_kafka_broker }}"
+
+kafka_server_zookeeper_initLimit: "5"
+kafka_server_zookeeper_syncLimit: "2"
+kafka_server_zookeeper_leaderport: "2888"
+kafka_server_zookeeper_electionport: "3888"
+
+# Internal topic settings: replication factor for the group metadata internal topics "__consumer_offsets" and "__transaction_state"
+kafka_internal_offsets_topic_replication_factor: "3"
+kafka_internal_transaction_state_log_replication_factor: "3"
+kafka_internal_transaction_state_log_min_isr: "3"
+
+# Log retention time
+log_retention_hours: "168"
+
+# The following configuration specifies the time, in milliseconds, that the GroupCoordinator will delay the initial consumer rebalance.
+group_initial_rebalance_delay_ms: "3000"
+
+
+#
+# NOTE: Confluent Proactive Support - requires support contract
+kafka_server_confluent_support_metrics_enable: "false"
+
+# Logdir:
+kafka_logdir: "/var/lib/kafka"

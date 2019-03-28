@@ -1,0 +1,16 @@
+# elasticsearch.yml
+elasticsearch_cluster_name:     "local_test_cluster"
+elasticsearch_path_data:     "/var/lib/elasticsearch"
+elasticsearch_path_logs:     "/var/log/elasticsearch"
+
+# setting to false for use in development system
+elasticsearch_bootstrap_memory_lock:  "false"
+
+elasticsearch_network_host:     "0.0.0.0"
+
+# jvm.options
+jvm_initial_heap_size:      "512m"
+jvm_maximum_heap_size:      "512m"
+
+# ES_TMP
+ES_TMP: "/app/tmp"

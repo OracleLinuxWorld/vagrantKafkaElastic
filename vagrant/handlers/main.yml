@@ -1,0 +1,19 @@
+- name: restart elasticsearch
+  service:
+    name: elasticsearch
+    state: restarted
+
+- name: restart kafka
+  service:
+    name: confluent-kafka
+    state: restarted
+
+- name: restart zookeeper
+  service:
+    name: confluent-kafka-zookeeper
+    state: restarted
+
+- name: restart kafka-rest
+  service:
+    name: confluent-kafka-rest
+    state: restarted

@@ -1,0 +1,44 @@
+#####
+##### Elasticsearch settings
+#####
+
+node_master:       true
+node_data:         true
+node_ingest:       true
+node_ml:           false
+xpack_security_enabled: false
+
+# monitoring (can be safely set to true in case of basic license)
+xpack_monitoring_collection_enabled: true
+
+# users
+elasticsearch_owner:      "elasticsearch"
+elasticsearch_group:      "elasticsearch"
+
+# elasticsearch.yml
+elasticsearch_cluster_name:     "local_test_cluster"
+elasticsearch_path_data:     "/var/lib/elasticsearch"
+elasticsearch_path_logs:     "/var/log/elasticsearch"
+
+xpack_license_self_generated_type: basic
+elasticsearch_bootstrap_memory_lock:  "false"
+elasticsearch_network_host:     "0.0.0.0"
+
+# Define interface and IP adress where the various daemon processes will listen
+es_service_interface: "eth1"
+es_service_ip_address: "{{ hostvars[inventory_hostname]['ansible_' + es_service_interface].ipv4.address }}"
+
+# jvm.options
+# please adjust to values suitable for your production system!
+jvm_initial_heap_size:   "2g"
+jvm_maximum_heap_size:   "2g"
+
+
+#####
+##### Kafka settings
+#####
+
+# num.partitions: The default number of log partitions per topic.
+# More partitions allow greater parallelism for consumption.
+kafka_server_num_partitions: 25
+kafka_rest_id: "kafka-rest-dev-vm"

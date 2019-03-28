@@ -1,0 +1,171 @@
+#!/bin/bash
+
+set -e
+set -u
+${DEBIAN_SCRIPT_DEBUG:+ set -v -x}
+SELF=$(cd $(dirname $0); pwd -P)/$(basename $0)
+
+# Safeguard (relative paths, core dumps..)
+cd /
+umask 077
+
+
+###
+### Variables
+###
+
+export TOPIC_NAME="test"
+export REPLICATION_FACTOR="3"
+export PARTITIONS="5"
+
+export PORT_BROKER="9092"
+export PORT_REST_PROXY="8082"
+export PORT_KAFKA_CONNECT_REST="8083"
+export PORT_ZOOKEEPER="2181"
+
+
+# comma separated list
+KAFKA_LOCAL_BROKER_IPS="{{ kafka_broker_ips }}"
+KAFKA_LOCAL_WORKERNODE_IPS="{{ kafka_workernode_ips }}"
+
+# single IP
+KAFKA_LOCAL_BROKER_FIRST_IP=`echo $KAFKA_LOCAL_BROKER_IPS | awk -F , '{print $1}'`
+KAFKA_LOCAL_WORKERNODE_FIRST_IP=`echo $KAFKA_LOCAL_WORKERNODE_IPS | awk -F , '{print $1}'`
+
+echo "First broker: $KAFKA_LOCAL_BROKER_FIRST_IP"
+echo "First workernode: $KAFKA_LOCAL_WORKERNODE_FIRST_IP"
+
+
+###
+### Functions
+###
+
+get_zookeeper_status() {
+echo "$KAFKA_LOCAL_BROKER_IPS" | sed s/,/\\n/g | while read line
+do
+ MODE=`echo stats | nc $line 2181 | grep Mode | sed s/Mode\:\ //g`
+ echo "Zookeeper host $line is running as: $MODE"
+done
+}
+
+create_and_verify_topic() {
+# Check if topic exists by checking the REST API on worker node
+TOPIC_EXISTS=`curl -s -XGET -H "Accept: application/vnd.kafka.v2+json" "http://$KAFKA_LOCAL_WORKERNODE_FIRST_IP:$PORT_REST_PROXY/topics/$TOPIC_NAME" | jq  '.message | @text'`
+
+# Create topic if not exists
+if   [[ "$TOPIC_EXISTS" =~ "Topic not found" ]]; then
+    echo "OK: Topic $TOPIC_NAME does not exist yet."
+    echo "Creating test topic: $TOPIC_NAME"
+    echo "Talking to broker: $KAFKA_LOCAL_BROKER_FIRST_IP"
+    kafka-topics --create --zookeeper $KAFKA_LOCAL_BROKER_FIRST_IP:$PORT_ZOOKEEPER --replication-factor $REPLICATION_FACTOR --partitions $PARTITIONS --topic $TOPIC_NAME
+    sleep 2
+else
+    echo "Topic $TOPIC_NAME already exists. Not creating again."
+fi
+}
+
+
+verify_topic() {
+echo "Verify topic $TOPIC_NAME with kafka_topics:"
+kafka-topics --zookeeper $KAFKA_LOCAL_BROKER_FIRST_IP:$PORT_ZOOKEEPER --describe --topic $TOPIC_NAME
+
+echo ""
+echo "Verify topic $TOPIC_NAME through REST PROXY:"
+curl -s -XGET -H "Accept: application/vnd.kafka.v2+json" "http://$KAFKA_LOCAL_WORKERNODE_FIRST_IP:$PORT_REST_PROXY/topics/$TOPIC_NAME" | jq '.'
+}
+
+
+start_console_consumer() {
+# Check if consumer has already been started by checking local process list
+CONSUMER_EXISTS=`ps aux | grep "ConsoleConsumer"`
+
+# Start consumer if not already running
+if   [[ "$CONSUMER_EXISTS" =~ "ConsoleConsumer --bootstrap-server $KAFKA_LOCAL_BROKER_FIRST_IP:$PORT_BROKER --topic $TOPIC_NAME" ]]; then
+    echo "Consumer already running. Not starting again."
+    echo ""
+    echo "Details below:"
+    echo ""
+    echo "$CONSUMER_EXISTS"
+else
+    echo "OK: Consumer not yet running."
+    echo "Starting consumer process in the background. Talking to broker: $KAFKA_LOCAL_BROKER_FIRST_IP"
+    kafka-console-consumer --bootstrap-server $KAFKA_LOCAL_BROKER_FIRST_IP:$PORT_BROKER --topic $TOPIC_NAME --from-beginning &
+    sleep 2
+fi
+}
+
+
+start_console_producer() {
+echo "Going to push 10 test messages to Kafka.."
+echo "Any messages you see scrolling by on the terminal you started console-consumer have been processed correctly by Kafka..."
+echo "Sleeping for 3 seconds... Please switch to your console-consumer terminal."
+sleep 3
+CURRENT_DATE=`date`
+echo "Started run at $CURRENT_DATE"
+echo `seq 1 10` | kafka-console-producer --broker-list $KAFKA_LOCAL_BROKER_FIRST_IP:$PORT_BROKER --topic $TOPIC_NAME
+#for ((i=1;i<=10;i++));
+#do
+#   echo "Test " | kafka-console-producer --broker-list $KAFKA_LOCAL_BROKER_FIRST_IP:$PORT_BROKER --topic $TOPIC_NAME
+#done
+}
+
+get_connectors() {
+echo "Display the connector plugins available through the Kafka Connect REST API"
+echo ""
+curl -s -XGET -H "Accept: application/json" "http://$KAFKA_LOCAL_WORKERNODE_FIRST_IP:$PORT_KAFKA_CONNECT_REST/connectors/" | jq '.'
+}
+
+
+
+###
+### main()
+###
+
+case "${1:-''}" in
+  'zookeeper-status')
+        echo "Get Zookeeper status..."
+        get_zookeeper_status
+        ;;
+
+  'create-topic')
+        echo "Create topic $TOPIC_NAME"
+        create_and_verify_topic
+        ;;
+
+  'verify-topic')
+        echo "Details on topic $TOPIC_NAME"
+        verify_topic
+        ;;
+
+  'start-console-consumer')
+        echo "Starting console-consumer for topic $TOPIC_NAME"
+        start_console_consumer
+        ;;
+
+  'start-console-producer')
+        echo "Starting console-producer for topic $TOPIC_NAME"
+        start_console_producer
+        ;;
+
+  'get-connectors')
+        get_connectors
+        ;;
+
+  *)
+  echo ""
+  echo "Most common options: $SELF zookeeper-status|create-topic|start-console-consumer"
+  echo ""
+  echo "Additional options:"
+  echo ""
+  echo ""
+  echo "zookeeper-status          : Get Zookeeper status for local ensemble."
+  echo "create-topic              : Create topic $TOPIC_NAME."
+  echo "verify-topic              : Get details on topic $TOPIC_NAME."
+  echo "start-console-consumer    : Starting console-consumer for topic $TOPIC_NAME."
+  echo "start-console-producer    : Starting console-producer for topic $TOPIC_NAME."
+  echo "get-connectors            : Display the connector plugins available through the Kafka Connect REST API on host $KAFKA_LOCAL_WORKERNODE_FIRST_IP"
+  exit 1
+	;;
+esac
+
+exit 0
