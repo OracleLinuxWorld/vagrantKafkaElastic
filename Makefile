@@ -14,21 +14,3 @@ restart-elasticsearch:
 	vagrant provision --provision-with restart_elasticsearch
 
 restart: restart-kafka restart-elasticsearch
-
-
-brokers:
-	curl -s -XGET -H 'Accept: application/vnd.kafka.v2+json' 'http://172.28.129.204:8082/brokers' | jq '.'
-
-topics:
-	curl -s -XGET -H 'Accept: application/vnd.kafka.v2+json' 'http://172.28.129.204:8082/topics' | jq '.'
-
-elastic_health:
-	curl -s -XGET -H 'Accept: application/json' -H 'Content-Type: application/json' 172.28.129.208:9200/_cat/health | jq '.'
-
-elastic_indices:
-	curl -s -XGET -H 'Accept: application/json' -H 'Content-Type: application/json' 172.28.129.208:9200/_cat/indices | jq '.'
-
-elastic_allocation:
-	curl -s -XGET -H 'Accept: application/json' -H 'Content-Type: application/json' 172.28.129.208:9200/_cat/allocation | jq '.'
-
-elastic: elastic_health elastic_indices elastic_allocation
