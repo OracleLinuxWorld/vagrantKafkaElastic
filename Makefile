@@ -32,15 +32,3 @@ elastic_allocation:
 	curl -s -XGET -H 'Accept: application/json' -H 'Content-Type: application/json' 172.28.129.208:9200/_cat/allocation | jq '.'
 
 elastic: elastic_health elastic_indices elastic_allocation
-
-restart-dc1:
-	ansible-playbook -i vagrant/inventory/hosts vagrant/ansible-playbook_restart_kafka_services.yml  --limit "dc1"
-
-restart-dc2:
-	ansible-playbook -i vagrant/inventory/hosts vagrant/ansible-playbook_restart_kafka_services.yml  --limit "dc2"
-
-restart: restart-dc1 restart-dc2
-
-kafka-demo:
-	ansible-playbook -i vagrant/inventory/hosts vagrant/ansible-playbook_demo_script.yml  --limit "dc1"
-	ansible-playbook -i vagrant/inventory/hosts vagrant/ansible-playbook_demo_script.yml  --limit "dc2"
