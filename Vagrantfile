@@ -12,7 +12,7 @@ Vagrant.configure("2") do |config|
     devboxKafkaElastic.vm.network "forwarded_port", guest: 9092, host: 19092, protocol: "tcp"
 
     # Kafka REST proxy port
-    devboxKafkaElastic.vm.network "forwarded_port", guest: 8083, host: 18083, protocol: "tcp"
+    devboxKafkaElastic.vm.network "forwarded_port", guest: 8082, host: 18082, protocol: "tcp"
 
     # Elasticsearch port
     devboxKafkaElastic.vm.network "forwarded_port", guest: 9200, host: 19200, protocol: "tcp"
@@ -33,9 +33,20 @@ Vagrant.configure("2") do |config|
     # Set to "true" if you want auto-updates
     # config.vbguest.auto_update = false
 
-    config.vm.provision "ansible_local" do |ansible|
+    config.vm.provision "default", type:'ansible_local' do |ansible|
           ansible.verbose = "v"
           ansible.playbook = "ansible-playbook.yml"
     end   # End of "config.vm.provision"
+
+    config.vm.provision "restart_kafka", type:'ansible_local', run: "never" do |restart_kafka|
+          restart_kafka.verbose = "v"
+          restart_kafka.playbook = "ansible-playbook_restart_kafka.yml"
+    end   # End of "config.vm.restart_kafka"
+
+    config.vm.provision "restart_elasticsearch", type:'ansible_local', run: "never" do |restart_elasticsearch|
+          restart_elasticsearch.verbose = "v"
+          restart_elasticsearch.playbook = "ansible-playbook_restart_elasticsearch.yml"
+    end   # End of "config.vm.restart_elasticsearch"
+
 
 end       # End of "Vagrant.configure"

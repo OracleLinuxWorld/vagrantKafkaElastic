@@ -1,0 +1,24 @@
+- hosts: all
+  remote_user: vagrant
+  become: true
+  become_user: root
+  become_method: sudo
+
+  tasks:
+
+###
+### RESTART Kafka services 
+###
+
+  - name: Make sure Kafka services are restarted
+    service:
+       name: "{{ item }}"
+       state: restarted
+       enabled: True
+    with_items:
+       - confluent-zookeeper
+       - confluent-kafka
+       - confluent-kafka-rest
+    when:
+       - ansible_os_family == "RedHat"
+       - ansible_distribution_major_version == "7"
