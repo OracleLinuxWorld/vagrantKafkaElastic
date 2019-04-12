@@ -204,6 +204,11 @@
       path: /usr/local/bin/kafka-demo.sh
       mode: 0755
 
+  - name: Clearing any old zookeeper databases so ensuring a clean ZK env
+    file:
+      path: /var/lib/zookeeper/version-2/log.*
+      state: absent
+
 
 ###
 ### Start Kafka services at boot time

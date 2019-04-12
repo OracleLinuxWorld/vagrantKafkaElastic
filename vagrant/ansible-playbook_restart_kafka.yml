@@ -10,6 +10,11 @@
 ### RESTART Kafka services 
 ###
 
+  - name: Clearing any old zookeeper databases so ensuring a clean ZK env
+    file:
+      path: /var/lib/zookeeper/version-2/log.*
+      state: absent
+
   - name: Make sure Kafka services are restarted
     service:
        name: "{{ item }}"

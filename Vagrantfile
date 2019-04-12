@@ -38,7 +38,7 @@ Vagrant.configure("2") do |config|
           ansible.playbook = "ansible-playbook.yml"
     end   # End of "config.vm.provision"
 
-    config.vm.provision "restart_kafka", type:'ansible_local', run: "never" do |restart_kafka|
+    config.vm.provision "restart_kafka", type:'ansible_local', run: "always" do |restart_kafka|
           restart_kafka.verbose = "v"
           restart_kafka.playbook = "ansible-playbook_restart_kafka.yml"
     end   # End of "config.vm.restart_kafka"
