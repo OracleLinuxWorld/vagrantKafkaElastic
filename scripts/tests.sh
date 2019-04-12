@@ -1,10 +1,19 @@
 #!/bin/sh
 
-export LOCAL_IF=`ip route | grep default | cut -d' '  -f5`
-#echo "Local interface is: $LOCAL_IF"
 
-export LOCAL_IP=`ip -f inet addr show dev $LOCAL_IF | grep inet | awk '{print $2}' | cut -d'/' -f1`
-#echo "Local IP is: $LOCAL_IP"
+export OSTYPE=`uname`
+
+# Check commands based on OSTYPE
+if   [[ "$OSTYPE" =~ "Darwin" ]]; then
+     echo "OS type determined as $OSTYPE"
+     export LOCAL_IF=`netstat -rn | grep ^default | grep -v tun | awk '{print $NF}' | sort | head -n1`
+     export LOCAL_IP=`ifconfig $LOCAL_IF | grep inet\ | awk '{print $2}'`
+elif [[ "$OSTYPE" =~ "Linux" ]]; then
+     echo "OS type determined as $OSTYPE"
+     export LOCAL_IF=`ip route | grep default | cut -d' '  -f5`
+     export LOCAL_IP=`ip -f inet addr show dev $LOCAL_IF | grep inet | awk '{print $2}' | cut -d'/' -f1`
+fi
+
 
 function get_kafka_rest_brokers {
 echo ""
