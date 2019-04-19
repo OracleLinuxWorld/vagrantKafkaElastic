@@ -1,0 +1,664 @@
+{
+	"_type": "export",
+	"__export_format": 3,
+	"__export_date": "2019-04-19T12:35:42.089Z",
+	"__export_source": "insomnia.desktop.app:v6.3.2",
+	"resources": [
+		{
+			"_id": "wrk_61f5c3987043443eae6ed44559f1b051",
+			"created": 1555580651574,
+			"description": "",
+			"modified": 1555580651574,
+			"name": "Localhost - singlenode Kafka/Elastic",
+			"parentId": null,
+			"_type": "workspace"
+		},
+		{
+			"_id": "env_86668d7d7cb64d118e4f2f37d3f79d7a",
+			"color": null,
+			"created": 1555580653005,
+			"data": {
+				"base_url": "192.168.137.225",
+				"port_broker": "19092",
+				"port_elastic": "19200",
+				"port_rest_proxy": "18082"
+			},
+			"isPrivate": false,
+			"metaSortKey": 1555580653005,
+			"modified": 1555580869956,
+			"name": "New Environment",
+			"parentId": "wrk_61f5c3987043443eae6ed44559f1b051",
+			"_type": "environment"
+		},
+		{
+			"_id": "jar_268b5fd489c24a60acccf9ecccd3af70",
+			"cookies": [],
+			"created": 1555580653026,
+			"modified": 1555580653026,
+			"name": "Default Jar",
+			"parentId": "wrk_61f5c3987043443eae6ed44559f1b051",
+			"_type": "cookie_jar"
+		},
+		{
+			"_id": "fld_9e72536a3dc14999a75c8ed791674f50",
+			"created": 1555580698822,
+			"description": "",
+			"environment": {},
+			"metaSortKey": -1536917683487.5,
+			"modified": 1555580953518,
+			"name": "Kafka/Elastic Single node",
+			"parentId": "wrk_61f5c3987043443eae6ed44559f1b051",
+			"_type": "request_group"
+		},
+		{
+			"_id": "env_ce07d105e71e48d6a3cfc47fdbf1dfcd",
+			"color": null,
+			"created": 1555580884837,
+			"data": {
+				"base_url": "192.168.137.225",
+				"port_broker": "19092",
+				"port_elastic": "19200",
+				"port_rest_proxy": "18082"
+			},
+			"isPrivate": false,
+			"metaSortKey": 1555580884837,
+			"modified": 1555580928052,
+			"name": "Single node environment",
+			"parentId": "env_86668d7d7cb64d118e4f2f37d3f79d7a",
+			"_type": "environment"
+		},
+		{
+			"_id": "fld_00df6be234fa4ac9abb117fcf54dd44e",
+			"created": 1555580698830,
+			"description": "",
+			"environment": {},
+			"metaSortKey": -1544532829663,
+			"modified": 1555581035290,
+			"name": "Kafka",
+			"parentId": "fld_9e72536a3dc14999a75c8ed791674f50",
+			"_type": "request_group"
+		},
+		{
+			"_id": "fld_edbc2108c54949f4ad354cda9e790c3e",
+			"created": 1555586195465,
+			"description": "",
+			"environment": {},
+			"metaSortKey": -1555586195465,
+			"modified": 1555677034364,
+			"name": "Step 02: Query Kafka details to verify topics etc",
+			"parentId": "fld_00df6be234fa4ac9abb117fcf54dd44e",
+			"_type": "request_group"
+		},
+		{
+			"_id": "fld_af1d9f431e864add92931a2977a30ca9",
+			"created": 1555586336327,
+			"description": "",
+			"environment": {},
+			"metaSortKey": -1555586336327,
+			"modified": 1555677016048,
+			"name": "Step 01: Posting of messages to topics",
+			"parentId": "fld_00df6be234fa4ac9abb117fcf54dd44e",
+			"_type": "request_group"
+		},
+		{
+			"_id": "fld_4ff6c1dc14ba4d4494b1332e2c388d65",
+			"created": 1555586531226,
+			"description": "",
+			"environment": {},
+			"metaSortKey": -1535412614151.8994,
+			"modified": 1555677071407,
+			"name": "Step 03: Create / subscribe to consumer group",
+			"parentId": "fld_00df6be234fa4ac9abb117fcf54dd44e",
+			"_type": "request_group"
+		},
+		{
+			"_id": "fld_5e58ac03a943486a8615e444561b12b1",
+			"created": 1555587963611,
+			"description": "",
+			"environment": {},
+			"metaSortKey": -1535412609047.8027,
+			"modified": 1555677247908,
+			"name": "Step 04: Consuming topic data through REST proxy",
+			"parentId": "fld_00df6be234fa4ac9abb117fcf54dd44e",
+			"_type": "request_group"
+		},
+		{
+			"_id": "req_957ac9ec95bd453cb1a325c167cd7ced",
+			"authentication": {},
+			"body": {},
+			"created": 1555580698844,
+			"description": "",
+			"headers": [],
+			"isPrivate": false,
+			"metaSortKey": -1545499569953.4087,
+			"method": "GET",
+			"modified": 1555677097420,
+			"name": "KAFKA REST - list brokers",
+			"parameters": [],
+			"parentId": "fld_edbc2108c54949f4ad354cda9e790c3e",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "{{ base_url }}:{{ port_rest_proxy }}/brokers",
+			"_type": "request"
+		},
+		{
+			"_id": "req_24bfb6fd99384e8c9a35ad60447d253d",
+			"authentication": {},
+			"body": {},
+			"created": 1555580698870,
+			"description": "",
+			"headers": [],
+			"isPrivate": false,
+			"metaSortKey": -1545499569940.9087,
+			"method": "GET",
+			"modified": 1555677091499,
+			"name": "KAFKA REST - list topics",
+			"parameters": [],
+			"parentId": "fld_edbc2108c54949f4ad354cda9e790c3e",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "{{ base_url }}:{{ port_rest_proxy }}/topics",
+			"_type": "request"
+		},
+		{
+			"_id": "req_3daad386184644f4b41cadf7b28baa0c",
+			"authentication": {},
+			"body": {},
+			"created": 1555580698881,
+			"description": "",
+			"headers": [],
+			"isPrivate": false,
+			"metaSortKey": -1545499569915.9087,
+			"method": "GET",
+			"modified": 1555586228264,
+			"name": "KAFKA REST - topic details \"test\"",
+			"parameters": [],
+			"parentId": "fld_edbc2108c54949f4ad354cda9e790c3e",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "{{ base_url }}:{{ port_rest_proxy }}/topics/test",
+			"_type": "request"
+		},
+		{
+			"_id": "req_31be9e9b422b4c4e86e1416631b9d0eb",
+			"authentication": {},
+			"body": {},
+			"created": 1555580698919,
+			"description": "",
+			"headers": [],
+			"isPrivate": false,
+			"metaSortKey": -1545499569865.9087,
+			"method": "GET",
+			"modified": 1555586240020,
+			"name": "KAFKA REST - topic details \"log_development\"",
+			"parameters": [],
+			"parentId": "fld_edbc2108c54949f4ad354cda9e790c3e",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "{{ base_url }}:{{ port_rest_proxy }}/topics/log_development",
+			"_type": "request"
+		},
+		{
+			"_id": "req_29b3c85f6fec430692774ed844350730",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\"records\":\n   [\n     {\n        \"value\" : \"Yadayadayada\"\n     }\n   ]\n}\n"
+			},
+			"created": 1555580698889,
+			"description": "",
+			"headers": [
+				{
+					"disabled": false,
+					"id": "pair_ca0bbbb3d54d4dd79ea30c8be0f86128",
+					"name": "Accept",
+					"value": "application/vnd.kafka.v2+json"
+				},
+				{
+					"disabled": false,
+					"id": "pair_8cb31537a72845339b294bec89c3d0c3",
+					"name": "Content-Type",
+					"value": "application/vnd.kafka.json.v2+json"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1535412944316.8176,
+			"method": "POST",
+			"modified": 1555675573346,
+			"name": "POST plaintext message to topic \"test\"",
+			"parameters": [],
+			"parentId": "fld_af1d9f431e864add92931a2977a30ca9",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "{{ base_url }}:{{ port_rest_proxy }}/topics/test",
+			"_type": "request"
+		},
+		{
+			"_id": "req_5734fd251e864234a9f50f5f397ebc62",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\"records\":\n   [\n     {\n        \"value\" : \"Bla\"\n     }\n   ]\n}\n"
+			},
+			"created": 1555586393492,
+			"description": "",
+			"headers": [
+				{
+					"disabled": false,
+					"id": "pair_ca0bbbb3d54d4dd79ea30c8be0f86128",
+					"name": "Accept",
+					"value": "application/vnd.kafka.v2+json"
+				},
+				{
+					"disabled": false,
+					"id": "pair_8cb31537a72845339b294bec89c3d0c3",
+					"name": "Content-Type",
+					"value": "application/vnd.kafka.json.v2+json"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1535412944291.8176,
+			"method": "POST",
+			"modified": 1555675626948,
+			"name": "POST plaintext message to topic \"log_development\"",
+			"parameters": [],
+			"parentId": "fld_af1d9f431e864add92931a2977a30ca9",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "{{ base_url }}:{{ port_rest_proxy }}/topics/log_development",
+			"_type": "request"
+		},
+		{
+			"_id": "req_4c871eee8a0a4414a168384ca15ae6df",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"records\": [\n\t\t{\n\t\t\t\"value\": \"WI87utNs5gj3aABSYQub4JdebXqLwyFY/aUUzPuBxq06YA1SwUwoFOMB6P5SKvfxgIY7Qpcac91K2TzOrPTJe87mtQeF+c0hK0EnvaAXq4YVaWhZ6zJsx/beazvXND4rRtuYnVO5Sy+3Tcw+d4yfbEB9rcocKY+bgcEknu0Xotz5kE64j6d3UZEByl5/3Y+ltjwohnNnBg3caAicqrF2g4HikUquVVGJ//+1g7dVo4zTi5bbcRah0NkaGurn6c2DRH+6A+YBusjzanvXk9NomV1EAdrtkfhrZgaNj97L29lmifBWI9mTO88rYvVX8nwFowfqvm1B9622IsjrWMut9xZjpdRcxTkMvya8F4aGdzsZ0z6z86LZ/Ob7BXZOkXGaR1d0QPkyNnhcKE5RyhjjhtGliDz/bYtbHMRGwPlUG/pUwOjmd8dVf9fd1XNvkiZ1FRg5Iv+6w1mB30FxFAtmMa/9JzR1A6T9i6fva7wpo6KhqRBMQa0vgTApuRQgUxzJoYe94jhOZ/2OpnZXWElWL8tWH4c65UTJMmVAKvzQvmiYyAfVNCVM4h1P6fxGbWo2Wkhr4ypYjlvJwjd0lclSE/5kwUpvU+y+7y8vaj7ej8O30DD7m7izcb15rHq0o12FFM6wAKc35zrFYRIfjFS+xwe8fzyojpxfh4apz6ZxD55f/SUS9n0lpTA6tThR8g9nPRezeZodwOgjNt8MBGK0orMnySxEK0Z2v3ee8W0lUTCmjzDTR6R8MUcl5DEwOKpqys8GBT4gbWWxAGPHQlTDlBemkMV5GG1a17Y661noKwBWri8JjdjHcKUJtis1xcDzMPZLt4pOoe7g2Mq4kdbNoHbMGG6qc874DM6G0Dhcj3dIvT//P6r6IhyZLoNfgteiWH2NtxVwV9biV7JdS9rYKoS0+OMRG/HSNLH82TezEh2Y4AbASUS3f67K5pW7r/BLWZQjM5a1TxkmPwu26+Nv5lZHW6BXvA4Uf8FljuFKO9F3RDDksPtkdjvV66xr8n1908JT50j5G6RTHxEENh9XCxBdQixh+fa5xc+qfLrQKxWQfMWJ3dL/sqpjdgNBf3iNMo7yt7pISKRCpddjIQ7PNGn53VF3BRpJnGkxCHHpOzZhN5W61e38d8DGYgV0XAiIamIt2lY2qunigi6FSd1OdRtpLB14TSWMVCP73nV6E5j9zDqhPmVAB8d96BSIYWbLK8r/qdFej3k+apdVAEjB+0HsYGAVrXUy7+3CWi0xAi3PScs+fcuwS00F9FTEmn5N8fMDBPicEZAokiIi/n7gv6VzO7Zv9BiSh/a9OasV1JFll8oSZdFrLjUQp5V6VR8M2ATLdZ0To0ZBqFT1X96cBQ==\"\n\t\t}\n\t]\n}"
+			},
+			"created": 1555674656209,
+			"description": "",
+			"headers": [
+				{
+					"disabled": false,
+					"id": "pair_ca0bbbb3d54d4dd79ea30c8be0f86128",
+					"name": "Accept",
+					"value": "application/vnd.kafka.v2+json"
+				},
+				{
+					"disabled": false,
+					"id": "pair_8cb31537a72845339b294bec89c3d0c3",
+					"name": "Content-Type",
+					"value": "application/vnd.kafka.binary.v2+json"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1535412944244.9426,
+			"method": "POST",
+			"modified": 1555674916040,
+			"name": "POST 1kb base64 testmessage to topic \"test\"",
+			"parameters": [],
+			"parentId": "fld_af1d9f431e864add92931a2977a30ca9",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "{{ base_url }}:{{ port_rest_proxy }}/topics/test",
+			"_type": "request"
+		},
+		{
+			"_id": "req_a4b37354214d470bac201ad002400e0d",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"records\": [\n\t\t{\n\t\t\t\"value\": \"WI87utNs5gj3aABSYQub4JdebXqLwyFY/aUUzPuBxq06YA1SwUwoFOMB6P5SKvfxgIY7Qpcac91K2TzOrPTJe87mtQeF+c0hK0EnvaAXq4YVaWhZ6zJsx/beazvXND4rRtuYnVO5Sy+3Tcw+d4yfbEB9rcocKY+bgcEknu0Xotz5kE64j6d3UZEByl5/3Y+ltjwohnNnBg3caAicqrF2g4HikUquVVGJ//+1g7dVo4zTi5bbcRah0NkaGurn6c2DRH+6A+YBusjzanvXk9NomV1EAdrtkfhrZgaNj97L29lmifBWI9mTO88rYvVX8nwFowfqvm1B9622IsjrWMut9xZjpdRcxTkMvya8F4aGdzsZ0z6z86LZ/Ob7BXZOkXGaR1d0QPkyNnhcKE5RyhjjhtGliDz/bYtbHMRGwPlUG/pUwOjmd8dVf9fd1XNvkiZ1FRg5Iv+6w1mB30FxFAtmMa/9JzR1A6T9i6fva7wpo6KhqRBMQa0vgTApuRQgUxzJoYe94jhOZ/2OpnZXWElWL8tWH4c65UTJMmVAKvzQvmiYyAfVNCVM4h1P6fxGbWo2Wkhr4ypYjlvJwjd0lclSE/5kwUpvU+y+7y8vaj7ej8O30DD7m7izcb15rHq0o12FFM6wAKc35zrFYRIfjFS+xwe8fzyojpxfh4apz6ZxD55f/SUS9n0lpTA6tThR8g9nPRezeZodwOgjNt8MBGK0orMnySxEK0Z2v3ee8W0lUTCmjzDTR6R8MUcl5DEwOKpqys8GBT4gbWWxAGPHQlTDlBemkMV5GG1a17Y661noKwBWri8JjdjHcKUJtis1xcDzMPZLt4pOoe7g2Mq4kdbNoHbMGG6qc874DM6G0Dhcj3dIvT//P6r6IhyZLoNfgteiWH2NtxVwV9biV7JdS9rYKoS0+OMRG/HSNLH82TezEh2Y4AbASUS3f67K5pW7r/BLWZQjM5a1TxkmPwu26+Nv5lZHW6BXvA4Uf8FljuFKO9F3RDDksPtkdjvV66xr8n1908JT50j5G6RTHxEENh9XCxBdQixh+fa5xc+qfLrQKxWQfMWJ3dL/sqpjdgNBf3iNMo7yt7pISKRCpddjIQ7PNGn53VF3BRpJnGkxCHHpOzZhN5W61e38d8DGYgV0XAiIamIt2lY2qunigi6FSd1OdRtpLB14TSWMVCP73nV6E5j9zDqhPmVAB8d96BSIYWbLK8r/qdFej3k+apdVAEjB+0HsYGAVrXUy7+3CWi0xAi3PScs+fcuwS00F9FTEmn5N8fMDBPicEZAokiIi/n7gv6VzO7Zv9BiSh/a9OasV1JFll8oSZdFrLjUQp5V6VR8M2ATLdZ0To0ZBqFT1X96cBQ==\"\n\t\t}\n\t]\n}"
+			},
+			"created": 1555676945458,
+			"description": "",
+			"headers": [
+				{
+					"disabled": false,
+					"id": "pair_ca0bbbb3d54d4dd79ea30c8be0f86128",
+					"name": "Accept",
+					"value": "application/vnd.kafka.v2+json"
+				},
+				{
+					"disabled": false,
+					"id": "pair_8cb31537a72845339b294bec89c3d0c3",
+					"name": "Content-Type",
+					"value": "application/vnd.kafka.binary.v2+json"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1535412944243.3801,
+			"method": "POST",
+			"modified": 1555676966150,
+			"name": "POST 1kb base64 testmessage to topic \"log_development\"",
+			"parameters": [],
+			"parentId": "fld_af1d9f431e864add92931a2977a30ca9",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "{{ base_url }}:{{ port_rest_proxy }}/topics/log_development",
+			"_type": "request"
+		},
+		{
+			"_id": "req_f67aace17cab42d3aa36e11deeda151f",
+			"authentication": {},
+			"body": {},
+			"created": 1555590190424,
+			"description": "",
+			"headers": [
+				{
+					"disabled": false,
+					"id": "pair_ca0bbbb3d54d4dd79ea30c8be0f86128",
+					"name": "Accept",
+					"value": "application/vnd.kafka.v2+json"
+				},
+				{
+					"disabled": false,
+					"id": "pair_7d15ff2575274840bb27b2b2fa87e3c0",
+					"name": "Content-Type",
+					"value": "application/vnd.kafka.v2+json"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1535412612350.534,
+			"method": "DELETE",
+			"modified": 1555677220531,
+			"name": "D: If necessary: DELETE dev_consumer_groep/dev_consumer_a",
+			"parameters": [],
+			"parentId": "fld_4ff6c1dc14ba4d4494b1332e2c388d65",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "{{ base_url }}:{{ port_rest_proxy }}/consumers/dev_consumer_group",
+			"_type": "request"
+		},
+		{
+			"_id": "req_4a0448e7c0b54393979b90fe5169b79a",
+			"authentication": {},
+			"body": {},
+			"created": 1555593114058,
+			"description": "",
+			"headers": [
+				{
+					"disabled": true,
+					"id": "pair_ca0bbbb3d54d4dd79ea30c8be0f86128",
+					"name": "Accept",
+					"value": "application/vnd.kafka.v2+json"
+				},
+				{
+					"disabled": true,
+					"id": "pair_7d15ff2575274840bb27b2b2fa87e3c0",
+					"name": "Accept",
+					"value": "application/vnd.kafka.v1+json"
+				},
+				{
+					"disabled": false,
+					"id": "pair_a401d4ec6bd0443c89aa32d29778269f",
+					"name": "Accept",
+					"value": "application/vnd.kafka.v2+json"
+				},
+				{
+					"disabled": true,
+					"id": "pair_335f4361231c4498a144d79815db914d",
+					"name": "Connection",
+					"value": "keep-alive"
+				},
+				{
+					"disabled": true,
+					"id": "pair_1c376962a7064797bebc066a1bba896d",
+					"name": "Content-Type",
+					"value": "application/vnd.kafka.binary.v2+json"
+				},
+				{
+					"disabled": true,
+					"id": "pair_c3bd4bbef2104e98a43cd69c9171559f",
+					"name": "Accept",
+					"value": "application/json"
+				},
+				{
+					"disabled": true,
+					"id": "pair_092d618ecf144c01aba5bee0d22af8a3",
+					"name": "Accept",
+					"value": "application/vnd.kafka+json"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1535412612375.534,
+			"method": "GET",
+			"modified": 1555677196990,
+			"name": "C: Verify valid subscriptions",
+			"parameters": [],
+			"parentId": "fld_4ff6c1dc14ba4d4494b1332e2c388d65",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "{{ base_url }}:{{ port_rest_proxy }}/consumers/dev_consumer_group/instances/dev_consumer_a/subscription",
+			"_type": "request"
+		},
+		{
+			"_id": "req_702b10dedfc54c6ab620cc9091b9ed01",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n  \"topics\": [\n    \"test\",\n    \"log_development\"\n  ]\n}\n\n\n"
+			},
+			"created": 1555668436530,
+			"description": "",
+			"headers": [
+				{
+					"disabled": true,
+					"id": "pair_ca0bbbb3d54d4dd79ea30c8be0f86128",
+					"name": "Accept",
+					"value": "application/vnd.kafka.v2+json"
+				},
+				{
+					"disabled": true,
+					"id": "pair_7d15ff2575274840bb27b2b2fa87e3c0",
+					"name": "Accept",
+					"value": "application/vnd.kafka.v1+json"
+				},
+				{
+					"disabled": true,
+					"id": "pair_a401d4ec6bd0443c89aa32d29778269f",
+					"name": "Accept",
+					"value": "application/vnd.kafka.json.v2+json"
+				},
+				{
+					"disabled": true,
+					"id": "pair_335f4361231c4498a144d79815db914d",
+					"name": "Connection",
+					"value": "keep-alive"
+				},
+				{
+					"disabled": false,
+					"id": "pair_1c376962a7064797bebc066a1bba896d",
+					"name": "Content-Type",
+					"value": "application/vnd.kafka.v2+json"
+				},
+				{
+					"disabled": true,
+					"id": "pair_c3bd4bbef2104e98a43cd69c9171559f",
+					"name": "Accept",
+					"value": "application/vnd.kafka.binary.v2+json"
+				},
+				{
+					"disabled": true,
+					"id": "pair_092d618ecf144c01aba5bee0d22af8a3",
+					"name": "Accept",
+					"value": "application/vnd.kafka+json"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1535412612388.034,
+			"method": "POST",
+			"modified": 1555677169505,
+			"name": "B: Subscribe to consumer group / topics (no body returned = OK)",
+			"parameters": [],
+			"parentId": "fld_4ff6c1dc14ba4d4494b1332e2c388d65",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "{{ base_url }}:{{ port_rest_proxy }}/consumers/dev_consumer_group/instances/dev_consumer_a/subscription",
+			"_type": "request"
+		},
+		{
+			"_id": "req_cf01e5ceb0b04aeab121033beed65c8e",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"name\": \"dev_consumer_a\",\n\t\"format\": \"binary\", \n\t\"auto.offset.reset\": \"earliest\",\n\t\"auto.commit.enable\": \"false\"\n}"
+			},
+			"created": 1555668529180,
+			"description": "",
+			"headers": [
+				{
+					"disabled": true,
+					"id": "pair_ca0bbbb3d54d4dd79ea30c8be0f86128",
+					"name": "Accept",
+					"value": "application/vnd.kafka.v2+json"
+				},
+				{
+					"disabled": false,
+					"id": "pair_8cb31537a72845339b294bec89c3d0c3",
+					"name": "Content-Type",
+					"value": "application/vnd.kafka.v2+json"
+				},
+				{
+					"disabled": true,
+					"id": "pair_7d15ff2575274840bb27b2b2fa87e3c0",
+					"name": "Accept",
+					"value": "application/vnd.kafka.v2+json"
+				},
+				{
+					"disabled": true,
+					"id": "pair_b669f92db92a4d20a637d94c89b79763",
+					"name": "Content-Type",
+					"value": "application/vnd.kafka.json.v1+json\""
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1535412612438.034,
+			"method": "POST",
+			"modified": 1555677139880,
+			"name": "A: Create dev_consumer_group/dev_consumer_a",
+			"parameters": [],
+			"parentId": "fld_4ff6c1dc14ba4d4494b1332e2c388d65",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "{{ base_url }}:{{ port_rest_proxy }}/consumers/dev_consumer_group",
+			"_type": "request"
+		},
+		{
+			"_id": "req_acbe8ffae9ef4d06bcabd78cdaafd861",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": ""
+			},
+			"created": 1555592290704,
+			"description": "",
+			"headers": [
+				{
+					"disabled": true,
+					"id": "pair_ca0bbbb3d54d4dd79ea30c8be0f86128",
+					"name": "Accept",
+					"value": "application/vnd.kafka.binary.v2+json"
+				},
+				{
+					"disabled": true,
+					"id": "pair_8cb31537a72845339b294bec89c3d0c3",
+					"name": "Content-Type",
+					"value": "application/vnd.kafka.binary.v1+json\""
+				},
+				{
+					"disabled": true,
+					"id": "pair_7d15ff2575274840bb27b2b2fa87e3c0",
+					"name": "Accept",
+					"value": "application/vnd.kafka.v1+json"
+				},
+				{
+					"disabled": true,
+					"id": "pair_5622ab89fd2e42a594c7b79133119ddf",
+					"name": "Accept",
+					"value": "application/vnd.kafka.json.v2+json"
+				},
+				{
+					"disabled": true,
+					"id": "pair_9f12fd1cf5d14df182f0bf4020695e0d",
+					"name": "Content-Type",
+					"value": "application/vnd.kafka.json.v2+json"
+				},
+				{
+					"disabled": true,
+					"id": "pair_6bcf756eeb64422b87a7aae87edecc3f",
+					"name": "Accept-Datetime",
+					"value": "application/vnd.kafka.binary.v2+json"
+				},
+				{
+					"id": "pair_db39dffcfda843739cda48d2643c3262",
+					"name": "Accept",
+					"value": "application/vnd.kafka.binary.v2+json"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1535412529202.3716,
+			"method": "GET",
+			"modified": 1555677259903,
+			"name": "Consume records using dev_consumer_groep/dev_consumer_a",
+			"parameters": [],
+			"parentId": "fld_5e58ac03a943486a8615e444561b12b1",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "{{ base_url }}:{{ port_rest_proxy }}/consumers/dev_consumer_group/instances/dev_consumer_a/records",
+			"_type": "request"
+		}
+	]
+}
