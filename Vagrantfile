@@ -9,7 +9,7 @@ Vagrant.configure("2") do |config|
     devboxKafkaElastic.vm.network :"private_network", type: "dhcp"
 
     # Kafka Broker port
-    devboxKafkaElastic.vm.network "forwarded_port", guest: 9092, host: 19092, protocol: "tcp"
+    devboxKafkaElastic.vm.network "forwarded_port", guest: 9092, host: 9092, protocol: "tcp"
 
     # Kafka REST proxy port
     devboxKafkaElastic.vm.network "forwarded_port", guest: 8082, host: 18082, protocol: "tcp"
